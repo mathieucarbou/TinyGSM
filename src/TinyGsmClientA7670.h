@@ -603,12 +603,8 @@ class TinyGsmA7670 : public TinyGsmModem<TinyGsmA7670>,
           *status = fixMode;
       }
       // Set pointers
-      if (lat != NULL){
-          *lat = ilat;
-      }
-      if (lon != NULL){
-          *lon = ilon;
-      }
+      if (lat != NULL) *lat = (floor(ilat / 100) + fmod(ilat, 100.) / 60) * (north == 'N' ? 1 : -1);
+      if (lon != NULL) *lon = (floor(ilon / 100) + fmod(ilon, 100.) / 60) * (east == 'E' ? 1 : -1);
       if (speed != NULL) *speed = ispeed;
       if (alt != NULL) *alt = ialt;
       if (vsat != NULL) *vsat = ivsat;
