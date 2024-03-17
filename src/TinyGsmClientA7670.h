@@ -353,7 +353,7 @@ class TinyGsmA7670 : public TinyGsmModem<TinyGsmA7670>,
       return false;
     }
     int res = waitResponse(GF("+NETCLOSE: 0"),GF("+NETCLOSE: 2")); 
-    if (res != 1 || res != 2){
+    if (res != 1 && res != 2){
       return false;
     }
     return true;
