@@ -269,7 +269,7 @@ public:
         return -1;
     }
 
-    int https_post(String payload)
+    int https_post(const String& payload)
     {
         return https_post((uint8_t *) payload.c_str(), payload.length());
     }
