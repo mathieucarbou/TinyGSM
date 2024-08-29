@@ -539,8 +539,8 @@ class TinyGsmA7670 : public TinyGsmModem<TinyGsmA7670>,
   bool isEnableGPSImpl(){
     sendAT(GF("+CGNSSPWR?"));
     if (waitResponse("+CGNSSPWR:") != 1) { return false; }
-    // return 1 == streamGetIntBefore(','); 
-    return 1 == streamGetIntBefore('\r'); 
+    // +CGNSSPWR:<GNSS_Power_status>,<AP_Flash_status>,<GNSS_dynamic_load>
+    return 1 == streamGetIntBefore(','); 
   }
 
   // get the RAW GPS output
