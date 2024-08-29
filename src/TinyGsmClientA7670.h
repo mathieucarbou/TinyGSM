@@ -217,17 +217,29 @@ class TinyGsmA7670 : public TinyGsmModem<TinyGsmA7670>,
   }
 
   String getModemNameImpl() {
-    String name = "SIMCom A7670";
+    String name = "UNKOWN";
+    String res;
 
-    sendAT(GF("+CGMM"));
-    String res2;
-    if (waitResponse(1000L, res2) != 1) { return name; }
-    res2.replace(GSM_NL "OK" GSM_NL, "");
-    res2.replace("_", " ");
-    res2.trim();
+    sendAT(GF("E0"));  // Echo Off
+    waitResponse();
 
-    name = res2;
-    DBG("### Modem:", name);
+    sendAT("I");
+    if (waitResponse(10000L, res) != 1) {
+        DBG("MODEM STRING NO FOUND!");
+        return name;
+    }
+    int modelIndex = res.indexOf("Model:") + 6;
+    int nextLineIndex = res.indexOf('\n', modelIndex);
+    if (nextLineIndex != -1) {
+        String modelString = res.substring(modelIndex, nextLineIndex);
+        modelString.trim();
+        if(modelString.startsWith("A7670")){
+          name = modelString;
+          DBG("### Modem:", name);
+        }
+    } else {
+        DBG("Model string not found.");
+    }
     return name;
   }
 
